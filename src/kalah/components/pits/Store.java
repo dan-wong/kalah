@@ -3,7 +3,7 @@ package kalah.components.pits;
 import kalah.components.Player;
 import kalah.exceptions.IllegalMoveException;
 
-public class Store extends Pits {
+public class Store extends Pit {
     public Store(Player owner) {
         super.owner = owner;
         super.seeds = 0;

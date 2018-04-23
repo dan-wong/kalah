@@ -6,12 +6,16 @@ import kalah.exceptions.IllegalMoveException;
 /**
  * Abstract to prevent instantiation
  */
-public abstract class Pits {
+public abstract class Pit {
     protected Player owner;
     protected int seeds;
 
     public Player getOwner() {
         return owner;
+    }
+
+    public int getNumberOfSeeds() {
+        return seeds;
     }
 
     /**

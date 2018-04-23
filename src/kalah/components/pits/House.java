@@ -3,7 +3,7 @@ package kalah.components.pits;
 import kalah.components.Player;
 import kalah.exceptions.IllegalMoveException;
 
-public class House extends Pits {
+public class House extends Pit {
     private static final int INITIAL_NUMBER_SEEDS = 4;
 
     public House(Player owner) {
