@@ -13,25 +13,46 @@ import java.util.Map;
 public class Board {
     public static final int NUMBER_OF_HOUSES = 6;
 
-    private Map<PitId, House> houses;
     private PitCircularList pitList;
-    private Store playerOneStore;
-    private Store playerTwoStore;
+    private Map<PitId, House> houses;
+    private Map<Player, Store> stores;
 
     public Board() {
-        houses = new HashMap<>();
         pitList = new PitCircularList();
+        houses = new HashMap<>();
+        stores = new HashMap<>();
 
         setupBoard();
     }
 
-    public void playMove(Player player, int initialHouse) throws IllegalMoveException {
+    /**
+     * Play a move on the board
+     *
+     * @param player       - player making the move
+     * @param initialHouse - the chosen initial house for the move
+     * @return true if the player gets another move, false if not
+     * @throws IllegalMoveException if an illegal move is made
+     */
+    public boolean playMove(Player player, int initialHouse) throws IllegalMoveException {
         Pit currentPit = pitList.get(houses.get(new PitId(player, initialHouse)));
 
         int seeds = currentPit.pickup(player);
         while (seeds != 0) {
             currentPit = pitList.getNext(currentPit);
             seeds = currentPit.sow(player, seeds);
+        }
+
+        //If the final pit is the current players store, they get another turn
+        if (currentPit.equals(stores.get(player))) {
+            return true;
+        }
+
+        //Capture detection, current pit is owned by the player and the pit is "empty" (0 before sowing, 1 after sowing)
+        if (currentPit.getOwner().equals(player) && currentPit.getNumberOfSeeds() == 1) {
+            Pit oppositePit = pitList.getOpposite(currentPit);
+            if (oppositePit.getNumberOfSeeds() > 0) {
+                int seedsCaptured = oppositePit.capture();
+            }
         }
     }
 
@@ -40,15 +61,17 @@ public class Board {
      */
     private void setupBoard() {
         //Player One's Store
-        playerOneStore = new Store(Player.TWO);
+        Store playerOneStore = new Store(Player.ONE);
         pitList.add(playerOneStore);
+        stores.put(Player.ONE, playerOneStore);
 
         //Player Two's Houses
         generateHouses(Player.TWO);
 
         //Player Two's Store
-        playerTwoStore = new Store(Player.TWO);
+        Store playerTwoStore = new Store(Player.TWO);
         pitList.add(playerTwoStore);
+        stores.put(Player.TWO, playerTwoStore);
 
         //Player One's Houses
         generateHouses(Player.ONE);
@@ -71,10 +94,10 @@ public class Board {
                 houses.get(new PitId(Player.TWO, 3)).getNumberOfSeeds(),
                 houses.get(new PitId(Player.TWO, 2)).getNumberOfSeeds(),
                 houses.get(new PitId(Player.TWO, 1)).getNumberOfSeeds(),
-                playerOneStore.getNumberOfSeeds()));
+                stores.get(Player.ONE).getNumberOfSeeds()));
         io.println("|    |-------+-------+-------+-------+-------+-------|    |");
         io.println(String.format("| %2d | 1[%2d] | 2[%2d] | 3[%2d] | 4[%2d] | 5[%2d] | 6[%2d] | P1 |",
-                playerTwoStore.getNumberOfSeeds(),
+                stores.get(Player.TWO).getNumberOfSeeds(),
                 houses.get(new PitId(Player.ONE, 1)).getNumberOfSeeds(),
                 houses.get(new PitId(Player.ONE, 2)).getNumberOfSeeds(),
                 houses.get(new PitId(Player.ONE, 3)).getNumberOfSeeds(),

@@ -18,20 +18,19 @@ public class Kalah {
 	}
 
 	public void play(IO io) {
-        Player currentTurn = Player.ONE;
+        Player currentPlayer = Player.ONE;
         Board board = new Board();
 
         board.printBoard(io);
 
-        String input = io.readFromKeyboard(String.format(PROMPT, currentTurn.number())).trim();
+        String input = io.readFromKeyboard(String.format(PROMPT, currentPlayer.number())).trim();
 
         while (!input.equals("q")) {
             try {
                 if (checkValidInput(input)) {
-                    board.playMove(currentTurn, Integer.valueOf(input));
+                    board.playMove(currentPlayer, Integer.valueOf(input));
                     board.printBoard(io);
-
-                    currentTurn = nextPlayer(currentTurn);
+                    currentPlayer = currentPlayer.nextPlayer();
                 }
             } catch (NumberFormatException e) {
                 io.println("ERROR: Invalid House Number " + input);
@@ -39,19 +38,12 @@ public class Kalah {
                 io.println("ERROR: " + e.getMessage());
             }
 
-            input = io.readFromKeyboard(String.format(PROMPT, currentTurn.number())).trim();
+            input = io.readFromKeyboard(String.format(PROMPT, currentPlayer.number())).trim();
         }
     }
 
     private boolean checkValidInput(String input) throws NumberFormatException {
         int houseNumber = Integer.valueOf(input);
         return houseNumber > 0 && houseNumber <= Board.NUMBER_OF_HOUSES;
-    }
-
-    private Player nextPlayer(Player player) {
-        if (player.equals(Player.ONE)) {
-            return Player.TWO;
-        }
-        return Player.ONE;
     }
 }

@@ -24,4 +24,11 @@ public enum Player {
     public int number() {
         return number;
     }
+
+    public Player nextPlayer() {
+        if (this.equals(Player.ONE)) {
+            return Player.TWO;
+        }
+        return Player.ONE;
+    }
 }
