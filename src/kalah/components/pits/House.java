@@ -1,14 +1,18 @@
 package kalah.components.pits;
 
 import kalah.components.Player;
-import kalah.exceptions.IllegalMoveException;
+
+import java.util.Objects;
 
 public class House extends Pit {
     private static final int INITIAL_NUMBER_SEEDS = 4;
 
-    public House(Player owner) {
+    private int houseNumber;
+
+    public House(Player owner, int houseNumber) {
         super.owner = owner;
         super.seeds = INITIAL_NUMBER_SEEDS;
+        this.houseNumber = houseNumber;
     }
 
     /**
@@ -24,20 +28,30 @@ public class House extends Pit {
     }
 
     @Override
-    public int pickup(Player player) throws IllegalMoveException {
-        if (player.equals(super.owner)) {
-            int seeds = super.seeds;
-            super.seeds = 0;
+    public int pickup() {
+        int seeds = super.seeds;
+        super.seeds = 0;
 
-            return seeds;
-        } else {
-            throw new IllegalMoveException("Player cannot pickup from a House they don't own!");
-        }
+        return seeds;
     }
 
     @Override
     public int sow(Player player, int seedsToSow) {
         super.seeds++;
         return seedsToSow - 1;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(owner, seeds, houseNumber);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof House) {
+            House other = (House) obj;
+            return owner.equals(other.owner) && seeds == other.seeds && houseNumber == other.houseNumber;
+        }
+        return false;
     }
 }

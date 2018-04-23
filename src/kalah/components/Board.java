@@ -5,7 +5,6 @@ import kalah.components.pits.House;
 import kalah.components.pits.Pit;
 import kalah.components.pits.PitId;
 import kalah.components.pits.Store;
-import kalah.exceptions.IllegalMoveException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,12 +30,11 @@ public class Board {
      * @param player       - player making the move
      * @param initialHouse - the chosen initial house for the move
      * @return true if the player gets another move, false if not
-     * @throws IllegalMoveException if an illegal move is made
      */
-    public boolean playMove(Player player, int initialHouse) throws IllegalMoveException {
+    public MoveResult playMove(Player player, int initialHouse) {
         Pit currentPit = pitList.get(houses.get(new PitId(player, initialHouse)));
 
-        int seeds = currentPit.pickup(player);
+        int seeds = currentPit.pickup();
         while (seeds != 0) {
             currentPit = pitList.getNext(currentPit);
             seeds = currentPit.sow(player, seeds);
@@ -44,7 +42,7 @@ public class Board {
 
         //If the final pit is the current players store, they get another turn
         if (currentPit.equals(stores.get(player))) {
-            return true;
+            return MoveResult.ANOTHER_MOVE;
         }
 
         //Capture detection, current pit is owned by the player and the pit is "empty" (0 before sowing, 1 after sowing)
@@ -52,8 +50,13 @@ public class Board {
             Pit oppositePit = pitList.getOpposite(currentPit);
             if (oppositePit.getNumberOfSeeds() > 0) {
                 int seedsCaptured = oppositePit.capture();
+                stores.get(player).deposit(seedsCaptured);
             }
         }
+
+        //TODO END GAME DETECTION
+
+        return MoveResult.FINISH;
     }
 
     /**
@@ -79,7 +82,7 @@ public class Board {
 
     private void generateHouses(Player player) {
         for (int i = 1; i <= NUMBER_OF_HOUSES; i++) {
-            House house = new House(player);
+            House house = new House(player, i);
             houses.put(new PitId(player, i), house);
             pitList.add(house);
         }

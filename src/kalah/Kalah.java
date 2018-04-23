@@ -3,8 +3,8 @@ package kalah;
 import com.qualitascorpus.testsupport.IO;
 import com.qualitascorpus.testsupport.MockIO;
 import kalah.components.Board;
+import kalah.components.MoveResult;
 import kalah.components.Player;
-import kalah.exceptions.IllegalMoveException;
 
 /**
  * This class is the starting point for a Kalah implementation using
@@ -28,14 +28,21 @@ public class Kalah {
         while (!input.equals("q")) {
             try {
                 if (checkValidInput(input)) {
-                    board.playMove(currentPlayer, Integer.valueOf(input));
+                    MoveResult result = board.playMove(currentPlayer, Integer.valueOf(input));
                     board.printBoard(io);
-                    currentPlayer = currentPlayer.nextPlayer();
+
+                    switch (result) {
+                        case ANOTHER_MOVE:
+                            break;
+                        case GAME_OVER:
+                            //TODO GAME OVER
+                        default:
+                            currentPlayer = currentPlayer.nextPlayer();
+                            break;
+                    }
                 }
             } catch (NumberFormatException e) {
                 io.println("ERROR: Invalid House Number " + input);
-            } catch (IllegalMoveException e) {
-                io.println("ERROR: " + e.getMessage());
             }
 
             input = io.readFromKeyboard(String.format(PROMPT, currentPlayer.number())).trim();

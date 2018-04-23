@@ -1,7 +1,6 @@
 package kalah.components.pits;
 
 import kalah.components.Player;
-import kalah.exceptions.IllegalMoveException;
 
 public class Store extends Pit {
     public Store(Player owner) {
@@ -19,8 +18,8 @@ public class Store extends Pit {
     }
 
     @Override
-    public int pickup(Player player) throws IllegalMoveException {
-        throw new IllegalMoveException("Cannot pickup from a Store!");
+    public int pickup() {
+        return 0;
     }
 
     /**
@@ -35,5 +34,15 @@ public class Store extends Pit {
         } else {
             return seedsToSow;
         }
+    }
+
+    /**
+     * Stores cannot be captured from
+     *
+     * @return 0
+     */
+    @Override
+    public int capture() {
+        return 0;
     }
 }
