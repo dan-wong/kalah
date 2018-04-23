@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Queue;
 
 public class Board {
-    private static final int NUMBER_OF_HOUSES = 6;
+    public static final int NUMBER_OF_HOUSES = 6;
 
     private Map<PitId, House> houses;
     private Queue<Pit> pits;
