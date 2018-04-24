@@ -27,6 +27,10 @@ public class House extends Pit {
         return seeds;
     }
 
+    public int getHouseNumber() {
+        return houseNumber;
+    }
+
     @Override
     public int pickup() {
         int seeds = super.seeds;

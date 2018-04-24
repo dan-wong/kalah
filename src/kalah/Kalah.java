@@ -11,7 +11,7 @@ import kalah.components.Player;
  * the test infrastructure.
  */
 public class Kalah {
-    private static final String PROMPT = "Player %d's turn - Specify house number or 'q' to quit: ";
+    private static final String PROMPT = "Player P%d's turn - Specify house number or 'q' to quit: ";
 
 	public static void main(String[] args) {
 		new Kalah().play(new MockIO());

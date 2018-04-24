@@ -1,6 +1,9 @@
 package kalah.components;
 
+import kalah.components.pits.House;
 import kalah.components.pits.Pit;
+import kalah.components.pits.PitId;
+import kalah.components.pits.Store;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,17 +21,35 @@ public class PitCircularList {
     }};
 
     private List<Pit> pitList;
+    private Map<PitId, House> houses;
+    private Map<Player, Store> stores;
 
     public PitCircularList() {
         pitList = new ArrayList<>();
+        houses = new HashMap<>();
+        stores = new HashMap<>();
     }
 
     public void add(Pit pit) {
+        if (pit instanceof House) {
+            House house = (House) pit;
+            houses.put(new PitId(house.getOwner(), house.getHouseNumber()), house);
+        } else {
+            Store store = (Store) pit;
+            stores.put(store.getOwner(), store);
+        }
         pitList.add(pit);
     }
 
-    public Pit get(Pit pit) {
-        return pitList.get(pitList.indexOf(pit));
+    /**
+     * Return the pit owned by the player and has the corresponding houseNumber
+     *
+     * @param player - Player owning the pit
+     * @return the pit requested
+     */
+    public Pit get(Player player, int houseNumber) {
+        House house = houses.get(new PitId(player, houseNumber));
+        return pitList.get(pitList.indexOf(house));
     }
 
     public Pit getNext(Pit current) {
@@ -40,8 +61,16 @@ public class PitCircularList {
         return pitList.get(nextIndex);
     }
 
-    public Pit getOpposite(Pit current) {
-        int currentIndex = pitList.indexOf(current);
-        return pitList.get(oppositePitMap.get(currentIndex));
+    public Pit getOppositeHouse(Pit current) {
+        if (current instanceof House) {
+            House house = (House) current;
+            return get(current.getOwner().nextPlayer(), oppositePitMap.get(house.getHouseNumber()));
+        } else {
+            return null;
+        }
+    }
+
+    public Store getStore(Player player) {
+        return stores.get(player);
     }
 }
