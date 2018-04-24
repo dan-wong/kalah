@@ -2,7 +2,6 @@ package kalah.components;
 
 import kalah.components.pits.House;
 import kalah.components.pits.Pit;
-import kalah.components.pits.PitId;
 import kalah.components.pits.Store;
 
 import java.util.ArrayList;
@@ -21,19 +20,25 @@ public class PitCircularList {
     }};
 
     private List<Pit> pitList;
-    private Map<PitId, House> houses;
+    private Map<Integer, House> playerOneHouses;
+    private Map<Integer, House> playerTwoHouses;
     private Map<Player, Store> stores;
 
     public PitCircularList() {
         pitList = new ArrayList<>();
-        houses = new HashMap<>();
+        playerOneHouses = new HashMap<>();
+        playerTwoHouses = new HashMap<>();
         stores = new HashMap<>();
     }
 
     public void add(Pit pit) {
         if (pit instanceof House) {
             House house = (House) pit;
-            houses.put(new PitId(house.getOwner(), house.getHouseNumber()), house);
+            if (house.getOwner().equals(Player.ONE)) {
+                playerOneHouses.put(house.getHouseNumber(), house);
+            } else {
+                playerTwoHouses.put(house.getHouseNumber(), house);
+            }
         } else {
             Store store = (Store) pit;
             stores.put(store.getOwner(), store);
@@ -48,7 +53,8 @@ public class PitCircularList {
      * @return the pit requested
      */
     public Pit get(Player player, int houseNumber) {
-        House house = houses.get(new PitId(player, houseNumber));
+        Map<Integer, House> playerHouses = player.equals(Player.ONE) ? playerOneHouses : playerTwoHouses;
+        House house = playerHouses.get(houseNumber);
         return pitList.get(pitList.indexOf(house));
     }
 
@@ -66,7 +72,7 @@ public class PitCircularList {
             House house = (House) current;
             return get(current.getOwner().nextPlayer(), oppositePitMap.get(house.getHouseNumber()));
         } else {
-            return null;
+            return null; //Should never be possible
         }
     }
 
@@ -95,12 +101,11 @@ public class PitCircularList {
      */
     public Map<Player, Integer> getSeedsInPlayForPlayers() {
         int playerOne = 0, playerTwo = 0;
-        for (House house : houses.values()) {
-            if (house.getOwner().equals(Player.ONE)) {
-                playerOne += house.getNumberOfSeeds();
-            } else {
-                playerTwo += house.getNumberOfSeeds();
-            }
+        for (House house : playerOneHouses.values()) {
+            playerOne += house.getNumberOfSeeds();
+        }
+        for (House house : playerTwoHouses.values()) {
+            playerTwo += house.getNumberOfSeeds();
         }
 
         Map<Player, Integer> seedsInPlayForPlayers = new HashMap<>();

@@ -40,7 +40,7 @@ public class Kalah {
                     board.printBoard(io);
                 }
             } catch (NumberFormatException e) {
-                io.println("ERROR: Invalid House Number " + input);
+                io.println("Invalid House Number " + input);
             }
 
             //No possible moves for next player, game over

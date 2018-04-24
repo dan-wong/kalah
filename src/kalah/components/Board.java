@@ -44,7 +44,7 @@ public class Board {
         //Capture detection, current pit is owned by the player and the pit is "empty" (0 before sowing, 1 after sowing)
         if (currentPit.getOwner().equals(player) && currentPit.getNumberOfSeeds() == 1) {
             Pit oppositePit = pitList.getOppositeHouse(currentPit);
-            if (oppositePit.getNumberOfSeeds() > 0) {
+            if (oppositePit != null && oppositePit.getNumberOfSeeds() > 0) {
                 int seedsCaptured = oppositePit.pickup();
                 seedsCaptured += currentPit.pickup();
                 pitList.getStore(player).deposit(seedsCaptured);

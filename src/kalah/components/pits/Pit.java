@@ -2,9 +2,6 @@ package kalah.components.pits;
 
 import kalah.components.Player;
 
-/**
- * Abstract to prevent instantiation
- */
 public abstract class Pit {
     protected Player owner;
     protected int seeds;
