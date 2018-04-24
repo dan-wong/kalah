@@ -5,6 +5,7 @@ import com.qualitascorpus.testsupport.MockIO;
 import kalah.components.Board;
 import kalah.components.MoveResult;
 import kalah.components.Player;
+import kalah.components.exceptions.IllegalMoveException;
 
 /**
  * This class is the starting point for a Kalah implementation using
@@ -31,18 +32,23 @@ public class Kalah {
                     MoveResult result = board.playMove(currentPlayer, Integer.valueOf(input));
                     board.printBoard(io);
 
-                    switch (result) {
-                        case ANOTHER_MOVE:
-                            break;
-                        case GAME_OVER:
-                            return;
-                        default:
-                            currentPlayer = currentPlayer.nextPlayer();
-                            break;
+                    if (result.equals(MoveResult.FINISH)) {
+                        currentPlayer = currentPlayer.nextPlayer();
                     }
                 }
             } catch (NumberFormatException e) {
                 io.println("ERROR: Invalid House Number " + input);
+            } catch (IllegalMoveException e) {
+                io.println(e.getMessage());
+                board.printBoard(io);
+            }
+
+            // Check if a move is possible by the next player
+            if (!board.isMovePossible(currentPlayer)) {
+                io.println("Game over");
+                board.printBoard(io);
+                board.printResults(io);
+                return;
             }
 
             input = io.readFromKeyboard(String.format(PROMPT, currentPlayer.number())).trim();

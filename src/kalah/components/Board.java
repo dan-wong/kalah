@@ -1,6 +1,7 @@
 package kalah.components;
 
 import com.qualitascorpus.testsupport.IO;
+import kalah.components.exceptions.IllegalMoveException;
 import kalah.components.pits.House;
 import kalah.components.pits.Pit;
 import kalah.components.pits.Store;
@@ -23,12 +24,15 @@ public class Board {
      *
      * @param player       - player making the move
      * @param initialHouse - the chosen initial house for the move
-     * @return true if the player gets another move, false if not
+     * @return MoveResult - FINISH if the turn is over, ANOTHER_MOVE if the player gets another move
      */
-    public MoveResult playMove(Player player, int initialHouse) {
+    public MoveResult playMove(Player player, int initialHouse) throws IllegalMoveException {
         Pit currentPit = pitList.get(player, initialHouse);
 
         int seeds = currentPit.pickup();
+        if (seeds == 0) {
+            throw new IllegalMoveException("House is empty. Move again.");
+        }
         while (seeds != 0) {
             currentPit = pitList.getNext(currentPit);
             seeds = currentPit.sow(player, seeds);
@@ -49,13 +53,19 @@ public class Board {
             }
         }
 
-        //End game detection
-        Map<Player, Integer> seedsPerPlayer = pitList.getSeedsPerPlayers();
-        if (seedsPerPlayer.containsValue(0)) {
-            return MoveResult.GAME_OVER;
-        }
-
         return MoveResult.FINISH;
+    }
+
+    /**
+     * Determine if a move is possible for the player
+     * i.e. A move is not possible if there are no seeds in the houses of the player
+     *
+     * @param player - Player to determine if a move is possible
+     * @return true if possible, false if not
+     */
+    public boolean isMovePossible(Player player) {
+        Map<Player, Integer> seedsInPlayForPlayers = pitList.getSeedsInPlayForPlayers();
+        return seedsInPlayForPlayers.get(player) != 0;
     }
 
     /**
@@ -104,5 +114,18 @@ public class Board {
                 pitList.get(Player.ONE, 5).getNumberOfSeeds(),
                 pitList.get(Player.ONE, 6).getNumberOfSeeds()));
         io.println("+----+-------+-------+-------+-------+-------+-------+----+");
+    }
+
+    public void printResults(IO io) {
+        Map<Player, Integer> seedsForPlayers = pitList.getSumOfSeedsForPlayers();
+        for (Player player : Player.values()) {
+            io.println(String.format("\tplayer %d:%d", player.number(), seedsForPlayers.get(player)));
+        }
+
+        if (seedsForPlayers.get(Player.ONE) > seedsForPlayers.get(Player.TWO)) {
+            io.println("Player 1 wins!");
+        } else {
+            io.println("Player 2 wins!");
+        }
     }
 }
