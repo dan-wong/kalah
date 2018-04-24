@@ -41,7 +41,8 @@ public class Board {
         if (currentPit.getOwner().equals(player) && currentPit.getNumberOfSeeds() == 1) {
             Pit oppositePit = pitList.getOppositeHouse(currentPit);
             if (oppositePit.getNumberOfSeeds() > 0) {
-                int seedsCaptured = oppositePit.capture();
+                int seedsCaptured = oppositePit.pickup();
+                seedsCaptured += currentPit.pickup();
                 pitList.getStore(player).deposit(seedsCaptured);
             }
         }

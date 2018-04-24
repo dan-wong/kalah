@@ -15,18 +15,6 @@ public class House extends Pit {
         this.houseNumber = houseNumber;
     }
 
-    /**
-     * When a player captures a House, all the seeds are removed from the House
-     *
-     * @return the number of seeds in this house
-     */
-    public int capture() {
-        int seeds = super.seeds;
-        super.seeds = 0;
-
-        return seeds;
-    }
-
     public int getHouseNumber() {
         return houseNumber;
     }

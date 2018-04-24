@@ -35,14 +35,4 @@ public class Store extends Pit {
             return seedsToSow;
         }
     }
-
-    /**
-     * Stores cannot be captured from
-     *
-     * @return 0
-     */
-    @Override
-    public int capture() {
-        return 0;
-    }
 }

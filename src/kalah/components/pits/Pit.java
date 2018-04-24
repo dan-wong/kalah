@@ -35,14 +35,6 @@ public abstract class Pit {
      */
     public abstract int sow(Player player, int seedsToSow);
 
-    /**
-     * When a player captures a House, all the seeds are removed from the House
-     * Stores cannot be captured from
-     *
-     * @return the number of seeds in this house
-     */
-    public abstract int capture();
-
     @Override
     public int hashCode() {
         return Objects.hash(owner, seeds);
