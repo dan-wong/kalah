@@ -13,14 +13,6 @@ public class PitId {
         this.houseNumber = houseNumber;
     }
 
-    public Player getOwner() {
-        return owner;
-    }
-
-    public int getHouseNumber() {
-        return houseNumber;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof PitId) {

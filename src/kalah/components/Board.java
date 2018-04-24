@@ -1,7 +1,6 @@
 package kalah.components;
 
 import com.qualitascorpus.testsupport.IO;
-import kalah.components.exceptions.IllegalMoveException;
 import kalah.components.pits.House;
 import kalah.components.pits.Pit;
 import kalah.components.pits.Store;
@@ -15,7 +14,6 @@ public class Board {
 
     public Board() {
         pitList = new PitCircularList();
-
         setupBoard();
     }
 
@@ -26,12 +24,12 @@ public class Board {
      * @param initialHouse - the chosen initial house for the move
      * @return MoveResult - FINISH if the turn is over, ANOTHER_MOVE if the player gets another move
      */
-    public MoveResult playMove(Player player, int initialHouse) throws IllegalMoveException {
+    public MoveResult playMove(Player player, int initialHouse) {
         Pit currentPit = pitList.get(player, initialHouse);
 
         int seeds = currentPit.pickup();
         if (seeds == 0) {
-            throw new IllegalMoveException("House is empty. Move again.");
+            return MoveResult.EMPTY_HOUSE;
         }
         while (seeds != 0) {
             currentPit = pitList.getNext(currentPit);
@@ -68,32 +66,6 @@ public class Board {
         return seedsInPlayForPlayers.get(player) != 0;
     }
 
-    /**
-     * Sets up the board anti-clockwise starting with Player One's store
-     */
-    private void setupBoard() {
-        //Player One's Store
-        Store playerOneStore = new Store(Player.ONE);
-        pitList.add(playerOneStore);
-
-        //Player Two's Houses
-        generateHouses(Player.TWO);
-
-        //Player Two's Store
-        Store playerTwoStore = new Store(Player.TWO);
-        pitList.add(playerTwoStore);
-
-        //Player One's Houses
-        generateHouses(Player.ONE);
-    }
-
-    private void generateHouses(Player player) {
-        for (int i = 1; i <= NUMBER_OF_HOUSES; i++) {
-            House house = new House(player, i);
-            pitList.add(house);
-        }
-    }
-
     public void printBoard(IO io) {
         io.println("+----+-------+-------+-------+-------+-------+-------+----+");
         io.println(String.format("| P2 | 6[%2d] | 5[%2d] | 4[%2d] | 3[%2d] | 2[%2d] | 1[%2d] | %2d |",
@@ -128,6 +100,32 @@ public class Board {
             io.println("Player 2 wins!");
         } else {
             io.println("A tie!");
+        }
+    }
+
+    /**
+     * Sets up the board anti-clockwise starting with Player One's store
+     */
+    private void setupBoard() {
+        //Player One's Store
+        Store playerOneStore = new Store(Player.ONE);
+        pitList.add(playerOneStore);
+
+        //Player Two's Houses
+        generateHouses(Player.TWO);
+
+        //Player Two's Store
+        Store playerTwoStore = new Store(Player.TWO);
+        pitList.add(playerTwoStore);
+
+        //Player One's Houses
+        generateHouses(Player.ONE);
+    }
+
+    private void generateHouses(Player player) {
+        for (int i = 1; i <= NUMBER_OF_HOUSES; i++) {
+            House house = new House(player, i);
+            pitList.add(house);
         }
     }
 }
