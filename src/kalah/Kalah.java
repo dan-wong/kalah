@@ -32,6 +32,7 @@ public class Kalah {
                     MoveResult result = board.playMove(currentPlayer, Integer.valueOf(input));
                     board.printBoard(io);
 
+                    //If the player gets another move, do not change currentPlayer to the next player
                     if (result.equals(MoveResult.FINISH)) {
                         currentPlayer = currentPlayer.nextPlayer();
                     }
@@ -43,7 +44,6 @@ public class Kalah {
                 board.printBoard(io);
             }
 
-            // Check if a move is possible by the next player
             if (!board.isMovePossible(currentPlayer)) {
                 io.println("Game over");
                 board.printBoard(io);

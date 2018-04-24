@@ -2,6 +2,8 @@ package kalah.components.pits;
 
 import kalah.components.Player;
 
+import java.util.Objects;
+
 public class Store extends Pit {
     public Store(Player owner) {
         super.owner = owner;
@@ -34,5 +36,19 @@ public class Store extends Pit {
         } else {
             return seedsToSow;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(owner, seeds, 11);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Store) {
+            Store other = (Store) obj;
+            return owner.equals(other.owner) && seeds == other.seeds;
+        }
+        return false;
     }
 }

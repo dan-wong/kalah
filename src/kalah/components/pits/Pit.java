@@ -2,8 +2,6 @@ package kalah.components.pits;
 
 import kalah.components.Player;
 
-import java.util.Objects;
-
 /**
  * Abstract to prevent instantiation
  */
@@ -34,18 +32,4 @@ public abstract class Pit {
      * @return the number of seeds remaining to sow after the sow method is called.
      */
     public abstract int sow(Player player, int seedsToSow);
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(owner, seeds);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Pit) {
-            Pit other = (Pit) obj;
-            return owner.equals(other.owner) && seeds == other.seeds;
-        }
-        return false;
-    }
 }

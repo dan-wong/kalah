@@ -124,8 +124,10 @@ public class Board {
 
         if (seedsForPlayers.get(Player.ONE) > seedsForPlayers.get(Player.TWO)) {
             io.println("Player 1 wins!");
-        } else {
+        } else if (seedsForPlayers.get(Player.ONE) < seedsForPlayers.get(Player.TWO)) {
             io.println("Player 2 wins!");
+        } else {
+            io.println("A tie!");
         }
     }
 }
