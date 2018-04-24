@@ -35,7 +35,7 @@ public class Kalah {
                         case ANOTHER_MOVE:
                             break;
                         case GAME_OVER:
-                            //TODO GAME OVER
+                            return;
                         default:
                             currentPlayer = currentPlayer.nextPlayer();
                             break;
@@ -47,6 +47,8 @@ public class Kalah {
 
             input = io.readFromKeyboard(String.format(PROMPT, currentPlayer.number())).trim();
         }
+        io.println("Game over");
+        board.printBoard(io);
     }
 
     private boolean checkValidInput(String input) throws NumberFormatException {

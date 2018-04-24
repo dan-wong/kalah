@@ -73,4 +73,25 @@ public class PitCircularList {
     public Store getStore(Player player) {
         return stores.get(player);
     }
+
+    /**
+     * Get the total number of seeds in houses for each player
+     *
+     * @return a map of player to number of seeds
+     */
+    public Map<Player, Integer> getSeedsPerPlayers() {
+        int playerOne = 0, playerTwo = 0;
+        for (House house : houses.values()) {
+            if (house.getOwner().equals(Player.ONE)) {
+                playerOne += house.getNumberOfSeeds();
+            } else {
+                playerTwo += house.getNumberOfSeeds();
+            }
+        }
+
+        Map<Player, Integer> seedPerPlayerMap = new HashMap<>();
+        seedPerPlayerMap.put(Player.ONE, playerOne);
+        seedPerPlayerMap.put(Player.TWO, playerTwo);
+        return seedPerPlayerMap;
+    }
 }

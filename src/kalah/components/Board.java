@@ -5,6 +5,8 @@ import kalah.components.pits.House;
 import kalah.components.pits.Pit;
 import kalah.components.pits.Store;
 
+import java.util.Map;
+
 public class Board {
     public static final int NUMBER_OF_HOUSES = 6;
 
@@ -47,7 +49,11 @@ public class Board {
             }
         }
 
-        //TODO END GAME DETECTION
+        //End game detection
+        Map<Player, Integer> seedsPerPlayer = pitList.getSeedsPerPlayers();
+        if (seedsPerPlayer.containsValue(0)) {
+            return MoveResult.GAME_OVER;
+        }
 
         return MoveResult.FINISH;
     }
