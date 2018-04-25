@@ -13,7 +13,7 @@ public class BoardPrinter {
         this.board = board;
     }
 
-    public void printIO(IO io) {
+    public void printStateIO(IO io) {
         Map<Player, List<Integer>> boardState = board.getBoardState();
 
         io.println("+----+-------+-------+-------+-------+-------+-------+----+");
@@ -35,5 +35,27 @@ public class BoardPrinter {
                 boardState.get(Player.ONE).get(5),
                 boardState.get(Player.ONE).get(6)));
         io.println("+----+-------+-------+-------+-------+-------+-------+----+");
+    }
+
+    public void printResultsIO(IO io) {
+        Map<Player, List<Integer>> boardState = board.getBoardState();
+        int playerOneSum = 0, playerTwoSum = 0;
+
+        for (int i = 0; i <= Board.NUMBER_OF_HOUSES; i++) {
+            playerOneSum += boardState.get(Player.ONE).get(i);
+            playerTwoSum += boardState.get(Player.TWO).get(i);
+        }
+
+        io.println(String.format("\tplayer %d:%d", 1, playerOneSum));
+        io.println(String.format("\tplayer %d:%d", 1, playerTwoSum));
+
+
+        if (playerOneSum > playerTwoSum) {
+            io.println("Player 1 wins!");
+        } else if (playerOneSum < playerTwoSum) {
+            io.println("Player 2 wins!");
+        } else {
+            io.println("A tie!");
+        }
     }
 }

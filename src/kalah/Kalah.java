@@ -23,7 +23,7 @@ public class Kalah {
         Board board = new Board();
         BoardPrinter boardPrinter = new BoardPrinter(board);
 
-        boardPrinter.printIO(io);
+        boardPrinter.printStateIO(io);
 
         String input = io.readFromKeyboard(String.format(PROMPT, currentPlayer.number())).trim();
 
@@ -39,7 +39,7 @@ public class Kalah {
                         io.println("House is empty. Move again.");
                     }
 
-                    boardPrinter.printIO(io);
+                    boardPrinter.printStateIO(io);
                 }
             } catch (NumberFormatException e) {
                 io.println("Invalid House Number " + input);
@@ -54,9 +54,9 @@ public class Kalah {
         }
 
         io.println("Game over");
-        boardPrinter.printIO(io);
-        if (!input.equals("q")) { //If the game was not ended forcefully, printIO results
-            board.printResults(io);
+        boardPrinter.printStateIO(io);
+        if (!input.equals("q")) { //If the game was not ended forcefully, printStateIO results
+            boardPrinter.printResultsIO(io);
         }
     }
 
