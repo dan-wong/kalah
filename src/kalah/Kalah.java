@@ -38,12 +38,12 @@ public class Kalah {
                     } else if (result.equals(MoveResult.EMPTY_HOUSE)) { //If the chosen house is empty, display error message
                         io.println("House is empty. Move again.");
                     }
-
-                    boardPrinter.printStateIO(io);
                 }
             } catch (NumberFormatException e) {
                 io.println("Invalid House Number " + input);
             }
+
+            boardPrinter.printStateIO(io);
 
             //No possible moves for next player, game over
             if (!board.isMovePossible(currentPlayer)) {
@@ -55,7 +55,7 @@ public class Kalah {
 
         io.println("Game over");
         boardPrinter.printStateIO(io);
-        if (!input.equals("q")) { //If the game was not ended forcefully, printStateIO results
+        if (!input.equals("q")) { //If the game was not ended forcefully, printResultsIO results
             boardPrinter.printResultsIO(io);
         }
     }
