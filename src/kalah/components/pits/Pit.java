@@ -1,6 +1,6 @@
 package kalah.components.pits;
 
-import kalah.components.Player;
+import kalah.components.player.Player;
 
 public abstract class Pit {
     protected Player owner;

@@ -1,19 +1,23 @@
-package kalah.components;
+package kalah.components.board;
 
 import com.qualitascorpus.testsupport.IO;
+import kalah.components.enums.MoveResult;
 import kalah.components.pits.House;
 import kalah.components.pits.Pit;
+import kalah.components.pits.PitCircularList;
 import kalah.components.pits.Store;
+import kalah.components.player.Player;
 
+import java.util.List;
 import java.util.Map;
 
 public class Board {
     public static final int NUMBER_OF_HOUSES = 6;
 
-    private PitCircularList pitList;
+    private PitCircularList pitCircularList;
 
     public Board() {
-        pitList = new PitCircularList();
+        pitCircularList = new PitCircularList();
         setupBoard();
     }
 
@@ -25,29 +29,29 @@ public class Board {
      * @return MoveResult - FINISH if the turn is over, ANOTHER_MOVE if the player gets another move
      */
     public MoveResult playMove(Player player, int initialHouse) {
-        Pit currentPit = pitList.get(player, initialHouse);
+        Pit currentPit = pitCircularList.get(player, initialHouse);
 
         int seeds = currentPit.pickup();
         if (seeds == 0) {
             return MoveResult.EMPTY_HOUSE;
         }
         while (seeds != 0) {
-            currentPit = pitList.getNext(currentPit);
+            currentPit = pitCircularList.getNext(currentPit);
             seeds = currentPit.sow(player, seeds);
         }
 
         //If the final pit is the current players store, they get another turn
-        if (currentPit.equals(pitList.getStore(player))) {
+        if (currentPit.equals(pitCircularList.getStore(player))) {
             return MoveResult.ANOTHER_MOVE;
         }
 
         //Capture detection, current pit is owned by the player and the pit is "empty" (0 before sowing, 1 after sowing)
         if (currentPit.getOwner().equals(player) && currentPit.getNumberOfSeeds() == 1) {
-            Pit oppositePit = pitList.getOppositeHouse(currentPit);
+            Pit oppositePit = pitCircularList.getOppositeHouse(currentPit);
             if (oppositePit != null && oppositePit.getNumberOfSeeds() > 0) {
                 int seedsCaptured = oppositePit.pickup();
                 seedsCaptured += currentPit.pickup();
-                pitList.getStore(player).deposit(seedsCaptured);
+                pitCircularList.getStore(player).deposit(seedsCaptured);
             }
         }
 
@@ -62,34 +66,12 @@ public class Board {
      * @return true if possible, false if not
      */
     public boolean isMovePossible(Player player) {
-        Map<Player, Integer> seedsInPlayForPlayers = pitList.getSeedsInPlayForPlayers();
+        Map<Player, Integer> seedsInPlayForPlayers = pitCircularList.getSeedsInPlayForPlayers();
         return seedsInPlayForPlayers.get(player) != 0;
     }
 
-    public void printBoard(IO io) {
-        io.println("+----+-------+-------+-------+-------+-------+-------+----+");
-        io.println(String.format("| P2 | 6[%2d] | 5[%2d] | 4[%2d] | 3[%2d] | 2[%2d] | 1[%2d] | %2d |",
-                pitList.get(Player.TWO, 6).getNumberOfSeeds(),
-                pitList.get(Player.TWO, 5).getNumberOfSeeds(),
-                pitList.get(Player.TWO, 4).getNumberOfSeeds(),
-                pitList.get(Player.TWO, 3).getNumberOfSeeds(),
-                pitList.get(Player.TWO, 2).getNumberOfSeeds(),
-                pitList.get(Player.TWO, 1).getNumberOfSeeds(),
-                pitList.getStore(Player.ONE).getNumberOfSeeds()));
-        io.println("|    |-------+-------+-------+-------+-------+-------|    |");
-        io.println(String.format("| %2d | 1[%2d] | 2[%2d] | 3[%2d] | 4[%2d] | 5[%2d] | 6[%2d] | P1 |",
-                pitList.getStore(Player.TWO).getNumberOfSeeds(),
-                pitList.get(Player.ONE, 1).getNumberOfSeeds(),
-                pitList.get(Player.ONE, 2).getNumberOfSeeds(),
-                pitList.get(Player.ONE, 3).getNumberOfSeeds(),
-                pitList.get(Player.ONE, 4).getNumberOfSeeds(),
-                pitList.get(Player.ONE, 5).getNumberOfSeeds(),
-                pitList.get(Player.ONE, 6).getNumberOfSeeds()));
-        io.println("+----+-------+-------+-------+-------+-------+-------+----+");
-    }
-
     public void printResults(IO io) {
-        Map<Player, Integer> seedsForPlayers = pitList.getSumOfSeedsForPlayers();
+        Map<Player, Integer> seedsForPlayers = pitCircularList.getSumOfSeedsForPlayers();
         for (Player player : Player.values()) {
             io.println(String.format("\tplayer %d:%d", player.number(), seedsForPlayers.get(player)));
         }
@@ -103,29 +85,24 @@ public class Board {
         }
     }
 
+    public Map<Player, List<Integer>> getBoardState() {
+        return pitCircularList.getState();
+    }
+
     /**
-     * Sets up the board anti-clockwise starting with Player One's store
+     * Sets up the board anti-clockwise starting with Player One's store, Player Two's houses,
+     * Player Two's store, Player One's houses
      */
     private void setupBoard() {
-        //Player One's Store
-        Store playerOneStore = new Store(Player.ONE);
-        pitList.add(playerOneStore);
-
-        //Player Two's Houses
+        pitCircularList.add(new Store(Player.ONE));
         generateHouses(Player.TWO);
-
-        //Player Two's Store
-        Store playerTwoStore = new Store(Player.TWO);
-        pitList.add(playerTwoStore);
-
-        //Player One's Houses
+        pitCircularList.add(new Store(Player.TWO));
         generateHouses(Player.ONE);
     }
 
     private void generateHouses(Player player) {
         for (int i = 1; i <= NUMBER_OF_HOUSES; i++) {
-            House house = new House(player, i);
-            pitList.add(house);
+            pitCircularList.add(new House(player, i));
         }
     }
 }

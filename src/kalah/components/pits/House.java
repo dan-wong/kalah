@@ -1,6 +1,7 @@
 package kalah.components.pits;
 
-import kalah.components.Player;
+import kalah.components.board.Board;
+import kalah.components.player.Player;
 
 import java.util.Objects;
 
@@ -17,6 +18,10 @@ public class House extends Pit {
 
     public int getHouseNumber() {
         return houseNumber;
+    }
+
+    public int getOppositeHouseNumber() {
+        return (Board.NUMBER_OF_HOUSES + 1) - houseNumber;
     }
 
     @Override

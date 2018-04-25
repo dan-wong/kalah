@@ -1,4 +1,4 @@
-package kalah.components;
+package kalah.components.player;
 
 /**
  * Enum class to represent each player.
@@ -6,6 +6,8 @@ package kalah.components;
 public enum Player {
     ONE(1),
     TWO(2);
+
+    private static final Player[] values = values();
 
     /**
      * Represents the player number
@@ -25,10 +27,8 @@ public enum Player {
         return number;
     }
 
+    //https://stackoverflow.com/questions/17006239/whats-the-best-way-to-implement-next-and-previous-on-an-enum-type?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
     public Player nextPlayer() {
-        if (this.equals(Player.ONE)) {
-            return Player.TWO;
-        }
-        return Player.ONE;
+        return values[(this.ordinal() + 1) % values.length];
     }
 }

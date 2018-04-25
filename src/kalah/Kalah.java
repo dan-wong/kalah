@@ -2,9 +2,10 @@ package kalah;
 
 import com.qualitascorpus.testsupport.IO;
 import com.qualitascorpus.testsupport.MockIO;
-import kalah.components.Board;
-import kalah.components.MoveResult;
-import kalah.components.Player;
+import kalah.components.board.Board;
+import kalah.components.board.BoardPrinter;
+import kalah.components.enums.MoveResult;
+import kalah.components.player.Player;
 
 /**
  * This class is the starting point for a Kalah implementation using
@@ -20,8 +21,9 @@ public class Kalah {
 	public void play(IO io) {
         Player currentPlayer = Player.ONE;
         Board board = new Board();
+        BoardPrinter boardPrinter = new BoardPrinter(board);
 
-        board.printBoard(io);
+        boardPrinter.printIO(io);
 
         String input = io.readFromKeyboard(String.format(PROMPT, currentPlayer.number())).trim();
 
@@ -37,7 +39,7 @@ public class Kalah {
                         io.println("House is empty. Move again.");
                     }
 
-                    board.printBoard(io);
+                    boardPrinter.printIO(io);
                 }
             } catch (NumberFormatException e) {
                 io.println("Invalid House Number " + input);
@@ -52,8 +54,8 @@ public class Kalah {
         }
 
         io.println("Game over");
-        board.printBoard(io);
-        if (!input.equals("q")) { //If the game was not ended forcefully, print results
+        boardPrinter.printIO(io);
+        if (!input.equals("q")) { //If the game was not ended forcefully, printIO results
             board.printResults(io);
         }
     }
