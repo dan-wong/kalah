@@ -47,7 +47,7 @@ public class BoardPrinter {
         }
 
         io.println(String.format("\tplayer %d:%d", 1, playerOneSum));
-        io.println(String.format("\tplayer %d:%d", 1, playerTwoSum));
+        io.println(String.format("\tplayer %d:%d", 2, playerTwoSum));
 
 
         if (playerOneSum > playerTwoSum) {

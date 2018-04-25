@@ -1,6 +1,5 @@
 package kalah.components.board;
 
-import com.qualitascorpus.testsupport.IO;
 import kalah.components.enums.MoveResult;
 import kalah.components.pits.House;
 import kalah.components.pits.Pit;
@@ -70,20 +69,6 @@ public class Board {
         return seedsInPlayForPlayers.get(player) != 0;
     }
 
-    public void printResults(IO io) {
-        Map<Player, Integer> seedsForPlayers = pitCircularList.getSumOfSeedsForPlayers();
-        for (Player player : Player.values()) {
-            io.println(String.format("\tplayer %d:%d", player.number(), seedsForPlayers.get(player)));
-        }
-
-        if (seedsForPlayers.get(Player.ONE) > seedsForPlayers.get(Player.TWO)) {
-            io.println("Player 1 wins!");
-        } else if (seedsForPlayers.get(Player.ONE) < seedsForPlayers.get(Player.TWO)) {
-            io.println("Player 2 wins!");
-        } else {
-            io.println("A tie!");
-        }
-    }
 
     public Map<Player, List<Integer>> getBoardState() {
         return pitCircularList.getState();
