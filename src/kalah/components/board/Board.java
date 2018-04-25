@@ -65,8 +65,13 @@ public class Board {
      * @return true if possible, false if not
      */
     public boolean isMovePossible(Player player) {
-        Map<Player, Integer> seedsInPlayForPlayers = pitCircularList.getSeedsInPlayForPlayers();
-        return seedsInPlayForPlayers.get(player) != 0;
+        List<Integer> seedsInPlayForPlayer = pitCircularList.getState().get(player);
+        for (int i = 0; i < seedsInPlayForPlayer.size(); i++) {
+            if (i != 0 && seedsInPlayForPlayer.get(i) > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

@@ -78,18 +78,4 @@ public class PitCircularList {
         }
         return seedsInHousesForPlayers;
     }
-
-    /**
-     * Get the sum of seeds in houses for each player
-     * Stores are NOT included
-     *
-     * @return a map of player to number of seeds
-     */
-    public Map<Player, Integer> getSeedsInPlayForPlayers() {
-        Map<Player, Integer> seedsInPlayForPlayers = new HashMap<>();
-        for (Player player : Player.values()) {
-            seedsInPlayForPlayers.put(player, playerHousesMap.get(player).getSumOfSeedsInHouses());
-        }
-        return seedsInPlayForPlayers;
-    }
 }
