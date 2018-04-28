@@ -1,11 +1,11 @@
 package kalah.components.board;
 
 import kalah.components.enums.MoveResult;
+import kalah.components.enums.Player;
 import kalah.components.pits.House;
 import kalah.components.pits.Pit;
 import kalah.components.pits.PitCircularList;
 import kalah.components.pits.Store;
-import kalah.components.player.Player;
 
 import java.util.List;
 import java.util.Map;
@@ -58,13 +58,13 @@ public class Board {
     }
 
     /**
-     * Determine if a move is possible for the player
+     * Determine if it is game over
      * i.e. A move is not possible if there are no seeds in the houses of the player
      *
      * @param player - Player to determine if a move is possible
-     * @return true if possible, false if not
+     * @return true if game over, false if not
      */
-    public boolean isMovePossible(Player player) {
+    public boolean isGameOver(Player player) {
         List<Integer> seedsInPlayForPlayer = pitCircularList.getState().get(player);
         for (int i = 0; i < seedsInPlayForPlayer.size(); i++) {
             if (i != 0 && seedsInPlayForPlayer.get(i) > 0) {

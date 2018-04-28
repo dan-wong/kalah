@@ -1,13 +1,12 @@
 package kalah.components.pits;
 
-import kalah.components.player.Player;
+import kalah.components.enums.Player;
 
 import java.util.Objects;
 
 public class Store extends Pit {
     public Store(Player owner) {
-        super.owner = owner;
-        super.seeds = 0;
+        super(owner, 0);
     }
 
     /**

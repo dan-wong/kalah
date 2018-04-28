@@ -1,10 +1,15 @@
 package kalah.components.pits;
 
-import kalah.components.player.Player;
+import kalah.components.enums.Player;
 
 public abstract class Pit {
-    protected Player owner;
+    protected final Player owner;
     protected int seeds;
+
+    protected Pit(Player owner, int seeds) {
+        this.owner = owner;
+        this.seeds = seeds;
+    }
 
     public Player getOwner() {
         return owner;

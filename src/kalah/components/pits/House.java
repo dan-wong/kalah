@@ -1,18 +1,17 @@
 package kalah.components.pits;
 
 import kalah.components.board.Board;
-import kalah.components.player.Player;
+import kalah.components.enums.Player;
 
 import java.util.Objects;
 
 public class House extends Pit {
     private static final int INITIAL_NUMBER_SEEDS = 4;
 
-    private int houseNumber;
+    private final int houseNumber;
 
     public House(Player owner, int houseNumber) {
-        super.owner = owner;
-        super.seeds = INITIAL_NUMBER_SEEDS;
+        super(owner, INITIAL_NUMBER_SEEDS);
         this.houseNumber = houseNumber;
     }
 

@@ -5,7 +5,7 @@ import com.qualitascorpus.testsupport.MockIO;
 import kalah.components.board.Board;
 import kalah.components.board.BoardPrinter;
 import kalah.components.enums.MoveResult;
-import kalah.components.player.Player;
+import kalah.components.enums.Player;
 
 /**
  * This class is the starting point for a Kalah implementation using
@@ -46,9 +46,7 @@ public class Kalah {
             boardPrinter.printStateIO(io);
 
             //No possible moves for next player, game over
-            if (!board.isMovePossible(currentPlayer)) {
-                break;
-            }
+            if (!board.isGameOver(currentPlayer)) break;
 
             input = io.readFromKeyboard(String.format(PROMPT, currentPlayer.number())).trim();
         }

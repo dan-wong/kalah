@@ -1,4 +1,4 @@
-package kalah.components.player;
+package kalah.components.enums;
 
 /**
  * Enum class to represent each player.

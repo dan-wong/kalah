@@ -1,7 +1,7 @@
 package kalah.components.board;
 
 import com.qualitascorpus.testsupport.IO;
-import kalah.components.player.Player;
+import kalah.components.enums.Player;
 
 import java.util.List;
 import java.util.Map;
