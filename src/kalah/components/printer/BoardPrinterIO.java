@@ -1,19 +1,23 @@
-package kalah.components.board;
+package kalah.components.printer;
 
 import com.qualitascorpus.testsupport.IO;
+import kalah.components.board.Board;
 import kalah.components.enums.Player;
 
 import java.util.List;
 import java.util.Map;
 
-public class BoardPrinter {
-    private Board board;
+public class BoardPrinterIO implements BoardPrinter {
+    private final Board board;
+    private final IO io;
 
-    public BoardPrinter(Board board) {
+    public BoardPrinterIO(Board board, IO io) {
         this.board = board;
+        this.io = io;
     }
 
-    public void printStateIO(IO io) {
+    @Override
+    public void printBoard() {
         Map<Player, List<Integer>> boardState = board.getBoardState();
 
         io.println("+----+-------+-------+-------+-------+-------+-------+----+");
@@ -37,7 +41,8 @@ public class BoardPrinter {
         io.println("+----+-------+-------+-------+-------+-------+-------+----+");
     }
 
-    public void printResultsIO(IO io) {
+    @Override
+    public void printResults() {
         Map<Player, List<Integer>> boardState = board.getBoardState();
         int playerOneSum = 0, playerTwoSum = 0;
 

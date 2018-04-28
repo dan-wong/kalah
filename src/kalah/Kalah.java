@@ -3,9 +3,10 @@ package kalah;
 import com.qualitascorpus.testsupport.IO;
 import com.qualitascorpus.testsupport.MockIO;
 import kalah.components.board.Board;
-import kalah.components.board.BoardPrinter;
 import kalah.components.enums.MoveResult;
 import kalah.components.enums.Player;
+import kalah.components.printer.BoardPrinter;
+import kalah.components.printer.BoardPrinterIO;
 
 /**
  * This class is the starting point for a Kalah implementation using
@@ -21,9 +22,9 @@ public class Kalah {
 	public void play(IO io) {
         Player currentPlayer = Player.ONE;
         Board board = new Board();
-        BoardPrinter boardPrinter = new BoardPrinter(board);
+        BoardPrinter printer = new BoardPrinterIO(board, io);
 
-        boardPrinter.printStateIO(io);
+        printer.printBoard();
 
         String input = io.readFromKeyboard(String.format(PROMPT, currentPlayer.number())).trim();
 
@@ -43,7 +44,7 @@ public class Kalah {
                 io.println("Invalid House Number " + input);
             }
 
-            boardPrinter.printStateIO(io);
+            printer.printBoard();
 
             //No possible moves for next player, game over
             if (!board.isGameOver(currentPlayer)) break;
@@ -52,9 +53,9 @@ public class Kalah {
         }
 
         io.println("Game over");
-        boardPrinter.printStateIO(io);
+        printer.printBoard();
         if (!input.equals("q")) { //If the game was not ended forcefully, printResultsIO results
-            boardPrinter.printResultsIO(io);
+            printer.printResults();
         }
     }
 
