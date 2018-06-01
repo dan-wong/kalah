@@ -1,4 +1,4 @@
-package kalah.components.pits;
+package kalah.components.impl.pits;
 
 import kalah.enums.Player;
 

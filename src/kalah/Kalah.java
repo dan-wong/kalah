@@ -2,7 +2,8 @@ package kalah;
 
 import com.qualitascorpus.testsupport.IO;
 import com.qualitascorpus.testsupport.MockIO;
-import kalah.components.board.Board;
+import kalah.components.impl.board.KalahBoard;
+import kalah.components.interfaces.board.Board;
 import kalah.enums.MoveResult;
 import kalah.enums.Player;
 import kalah.printer.BoardPrinter;
@@ -21,7 +22,7 @@ public class Kalah {
 
 	public void play(IO io) {
         Player currentPlayer = Player.ONE;
-        Board board = new Board();
+        Board board = new KalahBoard();
         BoardPrinter printer = new BoardPrinterIO(board, io);
 
         printer.printBoard();
@@ -61,6 +62,6 @@ public class Kalah {
 
     private boolean checkValidInput(String input) throws NumberFormatException {
         int houseNumber = Integer.valueOf(input);
-        return houseNumber > 0 && houseNumber <= Board.NUMBER_OF_HOUSES;
+        return houseNumber > 0 && houseNumber <= KalahBoard.NUMBER_OF_HOUSES;
     }
 }

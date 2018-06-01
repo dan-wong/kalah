@@ -1,9 +1,11 @@
 package kalah.printer;
 
 import com.qualitascorpus.testsupport.IO;
-import kalah.components.board.Board;
+import kalah.components.impl.board.KalahBoard;
+import kalah.components.interfaces.board.Board;
 import kalah.enums.Player;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,21 +46,29 @@ public class BoardPrinterIO implements BoardPrinter {
     @Override
     public void printResults() {
         Map<Player, List<Integer>> boardState = board.getBoardState();
-        int playerOneSum = 0, playerTwoSum = 0;
+        Map<Player, Integer> playerSums = new HashMap<>();
 
-        for (int i = 0; i <= Board.NUMBER_OF_HOUSES; i++) {
-            playerOneSum += boardState.get(Player.ONE).get(i);
-            playerTwoSum += boardState.get(Player.TWO).get(i);
+        for (Player player : Player.values()) {
+            playerSums.put(player, 0);
+            for (int i = 0; i <= KalahBoard.NUMBER_OF_HOUSES; i++) {
+                playerSums.put(player, playerSums.get(player) + boardState.get(player).get(i));
+            }
+            io.println(String.format("\tplayer %d:%d", player.number(), playerSums.get(player)));
         }
 
-        io.println(String.format("\tplayer %d:%d", 1, playerOneSum));
-        io.println(String.format("\tplayer %d:%d", 2, playerTwoSum));
+        int ties = 0;
+        Map.Entry<Player, Integer> maxEntry = null;
+        for (Map.Entry<Player, Integer> entry : playerSums.entrySet()) {
+            if (maxEntry == null || entry.getValue() > maxEntry.getValue()) {
+                maxEntry = entry;
+                ties = 0;
+            } else if (entry.getValue().equals(maxEntry.getValue())) {
+                ties++;
+            }
+        }
 
-
-        if (playerOneSum > playerTwoSum) {
-            io.println("Player 1 wins!");
-        } else if (playerOneSum < playerTwoSum) {
-            io.println("Player 2 wins!");
+        if (ties == 0) {
+            io.println(String.format("Player %d wins!", maxEntry.getKey().number()));
         } else {
             io.println("A tie!");
         }

@@ -1,21 +1,22 @@
-package kalah.components.board;
+package kalah.components.impl.board;
 
-import kalah.components.pits.House;
-import kalah.components.pits.Pit;
-import kalah.components.pits.PitCircularList;
-import kalah.components.pits.Store;
+import kalah.components.impl.pits.House;
+import kalah.components.impl.pits.Pit;
+import kalah.components.impl.pits.PitCircularList;
+import kalah.components.impl.pits.Store;
+import kalah.components.interfaces.board.Board;
 import kalah.enums.MoveResult;
 import kalah.enums.Player;
 
 import java.util.List;
 import java.util.Map;
 
-public class Board {
+public class KalahBoard implements Board {
     public static final int NUMBER_OF_HOUSES = 6;
 
     private PitCircularList pitCircularList;
 
-    public Board() {
+    public KalahBoard() {
         pitCircularList = new PitCircularList();
         setupBoard();
     }

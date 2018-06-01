@@ -1,6 +1,6 @@
-package kalah.components.board;
+package kalah.components.impl.board;
 
-import kalah.components.pits.House;
+import kalah.components.impl.pits.House;
 
 import java.util.*;
 
