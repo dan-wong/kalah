@@ -3,10 +3,10 @@ package kalah;
 import com.qualitascorpus.testsupport.IO;
 import com.qualitascorpus.testsupport.MockIO;
 import kalah.components.board.Board;
-import kalah.components.enums.MoveResult;
-import kalah.components.enums.Player;
-import kalah.components.printer.BoardPrinter;
-import kalah.components.printer.BoardPrinterIO;
+import kalah.enums.MoveResult;
+import kalah.enums.Player;
+import kalah.printer.BoardPrinter;
+import kalah.printer.BoardPrinterIO;
 
 /**
  * This class is the starting point for a Kalah implementation using

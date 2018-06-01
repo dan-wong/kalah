@@ -1,4 +1,4 @@
-package kalah.components.enums;
+package kalah.enums;
 
 public enum MoveResult {
     FINISH,

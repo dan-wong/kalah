@@ -1,6 +1,6 @@
 package kalah.components.pits;
 
-import kalah.components.enums.Player;
+import kalah.enums.Player;
 
 import java.util.Objects;
 

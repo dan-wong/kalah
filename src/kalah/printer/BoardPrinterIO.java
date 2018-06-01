@@ -1,8 +1,8 @@
-package kalah.components.printer;
+package kalah.printer;
 
 import com.qualitascorpus.testsupport.IO;
 import kalah.components.board.Board;
-import kalah.components.enums.Player;
+import kalah.enums.Player;
 
 import java.util.List;
 import java.util.Map;

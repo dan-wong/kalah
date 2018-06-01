@@ -1,6 +1,6 @@
 package kalah.components.pits;
 
-import kalah.components.enums.Player;
+import kalah.enums.Player;
 
 public abstract class Pit {
     protected final Player owner;

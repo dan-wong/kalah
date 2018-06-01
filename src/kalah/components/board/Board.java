@@ -1,11 +1,11 @@
 package kalah.components.board;
 
-import kalah.components.enums.MoveResult;
-import kalah.components.enums.Player;
 import kalah.components.pits.House;
 import kalah.components.pits.Pit;
 import kalah.components.pits.PitCircularList;
 import kalah.components.pits.Store;
+import kalah.enums.MoveResult;
+import kalah.enums.Player;
 
 import java.util.List;
 import java.util.Map;

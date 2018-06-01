@@ -1,7 +1,7 @@
 package kalah.components.pits;
 
 import kalah.components.board.PlayerHouses;
-import kalah.components.enums.Player;
+import kalah.enums.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;

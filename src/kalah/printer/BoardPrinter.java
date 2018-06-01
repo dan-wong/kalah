@@ -1,4 +1,4 @@
-package kalah.components.printer;
+package kalah.printer;
 
 public interface BoardPrinter {
     void printBoard();
