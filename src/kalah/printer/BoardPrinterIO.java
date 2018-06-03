@@ -2,7 +2,7 @@ package kalah.printer;
 
 import com.qualitascorpus.testsupport.IO;
 import kalah.components.impl.board.KalahBoard;
-import kalah.components.interfaces.board.Board;
+import kalah.components.interfaces.board.BoardForPrinting;
 import kalah.enums.Player;
 
 import java.util.HashMap;
@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 public class BoardPrinterIO implements BoardPrinter {
-    private final Board board;
+    private final BoardForPrinting board;
     private final IO io;
 
-    public BoardPrinterIO(Board board, IO io) {
+    public BoardPrinterIO(BoardForPrinting board, IO io) {
         this.board = board;
         this.io = io;
     }

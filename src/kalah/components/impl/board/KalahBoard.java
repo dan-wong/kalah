@@ -5,16 +5,19 @@ import kalah.components.impl.pits.Pit;
 import kalah.components.impl.pits.PitCircularList;
 import kalah.components.impl.pits.Store;
 import kalah.components.interfaces.board.Board;
+import kalah.components.interfaces.board.BoardForPrinting;
+import kalah.components.interfaces.pits.CircularList;
 import kalah.enums.MoveResult;
 import kalah.enums.Player;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class KalahBoard implements Board {
+public class KalahBoard implements Board, BoardForPrinting {
     public static final int NUMBER_OF_HOUSES = 6;
 
-    private PitCircularList pitCircularList;
+    protected CircularList pitCircularList;
 
     public KalahBoard() {
         pitCircularList = new PitCircularList();
@@ -74,7 +77,6 @@ public class KalahBoard implements Board {
         }
         return false;
     }
-
 
     public Map<Player, List<Integer>> getBoardState() {
         return pitCircularList.getState();

@@ -4,6 +4,7 @@ import com.qualitascorpus.testsupport.IO;
 import com.qualitascorpus.testsupport.MockIO;
 import kalah.components.impl.board.KalahBoard;
 import kalah.components.interfaces.board.Board;
+import kalah.components.interfaces.board.BoardForPrinting;
 import kalah.enums.MoveResult;
 import kalah.enums.Player;
 import kalah.printer.BoardPrinter;
@@ -23,7 +24,7 @@ public class Kalah {
 	public void play(IO io) {
         Player currentPlayer = Player.ONE;
         Board board = new KalahBoard();
-        BoardPrinter printer = new BoardPrinterIO(board, io);
+        BoardPrinter printer = new BoardPrinterIO((BoardForPrinting) board, io);
 
         printer.printBoard();
 

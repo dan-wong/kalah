@@ -1,6 +1,7 @@
 package kalah.components.impl.pits;
 
 import kalah.components.impl.board.PlayerHouses;
+import kalah.components.interfaces.pits.CircularList;
 import kalah.enums.Player;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PitCircularList {
+public class PitCircularList implements CircularList {
     private List<Pit> pitList;
     private Map<Player, PlayerHouses> playerHousesMap;
     private Map<Player, Store> playerStoreMap;
